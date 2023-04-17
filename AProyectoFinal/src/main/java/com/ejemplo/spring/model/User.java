@@ -1,20 +1,28 @@
 package com.ejemplo.spring.model;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "user")
+//Lo usare para que aparezca en la documentacion
+@Schema(name="User", description = "User Class")
 public class User {
-	
+	@Schema(name= "id", 
+			description = "Identificador único para el usuario", 
+	        required = true)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
 	private String lastname;
 	private String year;
+	
 	public int getId() {
 		return id;
 	}
