@@ -33,7 +33,29 @@ public class UserController {
 
 	@Autowired
 	UserService service;
+	@Operation(
+			summary = "Buscar todos los usuarios", 
+			description = "Devuelve un listado de usuarios", 
+			tags= {"user"})
 	
+	@ApiResponses(value = {
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Usuarios encontrados", 
+					content = {
+							@Content(
+									mediaType = "application/json", 
+									schema = @Schema(
+											implementation = User.class)
+									) 
+							}
+					),
+			@ApiResponse(
+					responseCode = "204", 
+					description = "La Lista de usuarios está vacia", 
+					content = @Content)
+	}
+	)
 	@GetMapping
 	public ResponseEntity<List<User>> findAll() {
 		List<User> users= service.findAll();
@@ -67,7 +89,7 @@ public class UserController {
 						content = @Content),
 				@ApiResponse(
 						responseCode = "404", 
-						description = "Studiante no encontrado (NO implementado)", 
+						description = "Usuario no encontrado", 
 						content = @Content) 
 				}
 		)
@@ -79,20 +101,63 @@ public class UserController {
 		return user.map(c -> ResponseEntity.ok().body(c))
                 .orElse(ResponseEntity.notFound().build());
 	}
-	
+		@Operation(
+				summary = "Guardar Usuario", 
+				description = "Dado un objeto User, se almacena en la base de datos", 
+				tags= {"user"})
+		@ApiResponses(value = {
+				@ApiResponse(
+						responseCode = "200", 
+						description = "Usuario guardado", 
+						content = {
+								@Content(
+										mediaType = "application/json", 
+										schema = @Schema(
+												implementation = User.class)
+										) 
+								}
+						),
+				@ApiResponse(
+						responseCode = "204", 
+						description = "Uno o varios campos del usuario están vacios", 
+						content = @Content)
+				})
+		
+		
 	@PostMapping("/add")
 	public ResponseEntity<User> save(@RequestBody User user) {
 		
 		User saveduser= service.save(user);
 		return ResponseEntity.ok().body(saveduser);
 	}
-	
+		@Operation(
+				summary = "Eliminar usuario usando ID", 
+				description = "Dado un ID, elimina el usuario y devuelve el usuario eliminado", 
+				tags= {"user"})
+		@ApiResponses(value = {
+				@ApiResponse(
+						responseCode = "200", 
+						description = "Usuario eliminado", 
+						content = {
+								@Content(
+										mediaType = "application/json", 
+										schema = @Schema(
+												implementation = User.class)
+										) 
+								}
+						),
+				@ApiResponse(
+						responseCode = "404", 
+						description = "Usuario no encontrado", 
+						content = @Content) 
+				}
+		)
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<User> deleteById(@PathVariable int id){
 		
 		Optional<User> user= service.deleteById(id);
 		
 		return user.map(c -> ResponseEntity.ok().body(c))
-                .orElse(ResponseEntity.noContent().build());
+                .orElse(ResponseEntity.notFound().build());
 	}
 }
