@@ -19,7 +19,6 @@ public class OpenApiConfig {
                 .info(new Info().title("Proyecto Final")
                 .description("Documentación de la Julian Proyecto Final")
                 .version("v1.0")
-                .contact(new Contact().name("Antonio Santos").email("antonio@santos.es"))
                 .license(new License().name("LICENSE").url("http://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
                 .description("Descripcion del proyecto"));

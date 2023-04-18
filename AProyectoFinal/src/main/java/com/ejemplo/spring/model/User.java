@@ -10,7 +10,6 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "user")
-//Lo usare para que aparezca en la documentacion
 @Schema(name="User", description = "User Class")
 public class User {
 	@Schema(name= "id", 
